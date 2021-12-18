@@ -14,6 +14,7 @@ final class GameController: UIViewController {
     @IBOutlet weak var bButton: UIButton!
     @IBOutlet weak var cButton: UIButton!
     @IBOutlet weak var dButton: UIButton!
+    @IBOutlet weak var exitButton: UIButton!
     
     var buttons: [UIButton] = []
         
@@ -22,10 +23,13 @@ final class GameController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureButtons()
+        configureViews()
     }
     
-    private func configureButtons(){
+    private func configureViews(){
+        questionLabel.textAlignment = .center
+        exitButton.titleLabel?.textAlignment = .center
+        exitButton.addTarget(nil, action: #selector(exitGame), for: .touchUpInside)
         aButton.tag = 0
         bButton.tag = 1
         cButton.tag = 2
@@ -34,10 +38,10 @@ final class GameController: UIViewController {
         buttons.append(bButton)
         buttons.append(cButton)
         buttons.append(dButton)
-        aButton.addTarget(self, action: #selector(didTapAnswer(_:)), for: .touchUpInside)
-        bButton.addTarget(self, action: #selector(didTapAnswer(_:)), for: .touchUpInside)
-        cButton.addTarget(self, action: #selector(didTapAnswer(_:)), for: .touchUpInside)
-        dButton.addTarget(self, action: #selector(didTapAnswer(_:)), for: .touchUpInside)
+        buttons.forEach { button in
+            button.titleLabel?.textAlignment = .center
+            button.addTarget(self, action: #selector(didTapAnswer(_:)), for: .touchUpInside)
+        }
         changeTexts(question: self.gameSession.currentQuestion)
     }
     
@@ -80,7 +84,8 @@ final class GameController: UIViewController {
         }
     }
     
-    @IBAction func endGame(_ sender: Any) {
+    @objc
+    func exitGame() {
         returnToMain(needAlert: false)
     }
     

@@ -158,9 +158,6 @@
                                         </fragment>
                                     </attributedString>
                                 </buttonConfiguration>
-                                <connections>
-                                    <action selector="endGame:" destination="PYD-3p-cJi" eventType="touchUpInside" id="QVa-b8-4fh"/>
-                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="a7s-5L-OXU"/>
@@ -184,6 +181,7 @@
                         <outlet property="bButton" destination="AjV-Zs-6uH" id="X8N-nb-6Gs"/>
                         <outlet property="cButton" destination="o2S-Pm-JEC" id="VhH-3E-BR0"/>
                         <outlet property="dButton" destination="L2h-aO-qhi" id="yV0-4G-jig"/>
+                        <outlet property="exitButton" destination="2Bh-0U-G6C" id="fZZ-k7-kg5"/>
                         <outlet property="questionLabel" destination="T2K-MI-YxQ" id="A5b-iP-N6g"/>
                         <segue destination="lLB-kt-kDR" kind="unwind" identifier="unwindMain" unwindAction="unwindToResultWithSegue:" id="AQq-3f-jAb"/>
                     </connections>
