@@ -8,8 +8,6 @@
 import UIKit
 
 final class MainController: UIViewController {
-
-    private let resultCaretaker = ResultCaretaker()
     
     override func viewDidLoad() {
         super.viewDidLoad()
