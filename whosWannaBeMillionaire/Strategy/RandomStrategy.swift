@@ -13,7 +13,7 @@ protocol IsRandomStrategyProtocol: AnyObject{
 
 class RandomStrategy: IsRandomStrategyProtocol {
     func prepareQuestions(_ questions: [Question]) -> [Question] {
-        return questions
+        return questions.shuffled()
     }
 }
 

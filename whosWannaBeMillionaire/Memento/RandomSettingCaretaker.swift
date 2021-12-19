@@ -28,7 +28,7 @@ final class RandomSettingCaretaker{
               let result = try? JSONDecoder().decode(QuestionOrder.self, from: data)
         else {
             print ("error load question order")
-            return .sequence
+            return .random
         }
         return result
     }

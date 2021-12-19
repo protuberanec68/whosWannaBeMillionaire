@@ -16,10 +16,22 @@ final class GameController: UIViewController {
     @IBOutlet weak var dButton: UIButton!
     @IBOutlet weak var exitButton: UIButton!
     
+    @IBOutlet weak var infoLabel: UILabel!
+    
     var buttons: [UIButton] = []
+    var percentInfo: Int = 0 {
+        didSet {
+            changeInfoText()
+        }
+    }
+    
+    var countInfo: Int = 0 {
+        didSet {
+            changeInfoText()
+        }
+    }
         
     var gameSession: GameSessionProtocol!
-    var delegate: MainController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +55,15 @@ final class GameController: UIViewController {
             button.addTarget(self, action: #selector(didTapAnswer(_:)), for: .touchUpInside)
         }
         changeTexts(question: self.gameSession.currentQuestion)
+        changeInfoText()
+        gameSession.percentOfRightAnswers.addObserver(self, options: [.new]) {
+            percent, _ in
+            self.percentInfo = percent
+        }
+        gameSession.currentQuestionID.addObserver(self, options: [.new]) {
+            questionID, _ in
+            self.countInfo = questionID
+        }
     }
     
     private func changeTexts(question: Question){
@@ -72,15 +93,15 @@ final class GameController: UIViewController {
         buttons.forEach {
             $0.backgroundColor = .systemGray5
         }
-        if !gameSession.isQuestionLast {
-            gameSession.currentQuestionID += 1
+        gameSession.calculatePercent()
+        gameSession.currentQuestionID.value += 1
+        if !gameSession.isQuestionsEnd {
             changeTexts(question: gameSession.currentQuestion)
         } else {
-            delegate.endGame()
             returnToMain(
                 needAlert: true,
                 alertTitle: "Отлично!",
-                alertMessage: "Спасибо за игру! Вы ответили верно на \(gameSession.percentOfRightAnswers)% вопросов!")
+                alertMessage: "Спасибо за игру! Вы ответили верно на \(gameSession.percentOfRightAnswers.value)% вопросов!")
         }
     }
     
@@ -98,13 +119,21 @@ final class GameController: UIViewController {
             let alertButton = UIAlertAction(
                 title: "ОК",
                 style: .cancel) { _ in
-                    self.performSegue(withIdentifier: "unwindMain", sender: nil)
+                    self.performSegue(withIdentifier: "unwindMainFromGame", sender: nil)
                 }
             alert.addAction(alertButton)
             present(alert, animated: true)
         } else {
-            performSegue(withIdentifier: "unwindMain", sender: nil)
+            self.performSegue(withIdentifier: "unwindMainFromGame", sender: nil)
         }
     }
+    
+    private func changeInfoText(){
+        let count = self.countInfo
+        var countWord = count == 1 ? "вопрос" : "вопроса"
+        countWord = (count > 4 || count == 0) ? "вопросов" : countWord
+        infoLabel.text = "На \(count) \(countWord) вы дали \(self.percentInfo)% правильных ответов"
+    }
+
     
 }
