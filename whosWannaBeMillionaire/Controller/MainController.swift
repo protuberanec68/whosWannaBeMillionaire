@@ -11,6 +11,7 @@ final class MainController: UIViewController {
     
     let questionsCaretaker = QuestionsCaretaker()
     var actualQuestions: [Question] = []
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
